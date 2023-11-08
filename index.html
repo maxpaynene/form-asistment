@@ -15,23 +15,46 @@
     </style>
 </head>
 <body>
-    <form action="./success.html" class="form">
-        <input type="text" name="name-signature" placeholder="Nombre Asignatura" required>
-        <input type="text" name="section" placeholder="Section" required>
-        <input type="text" name="career" placeholder="Career" required>
-        <input type="datetime-local" name="datetime-local" id="datetime-local" required hidden>
-        <input type="submit" value="Enviar" onclick="saveToBd()">
+    <!-- action="./success.html" -->
+    <form  class="form">
+        <input type="text" id="namesignature" name="name-signature" placeholder="Nombre Asignatura" required>
+        <input type="text" id="namesection" name="section" placeholder="Seccion" required>
+        <input type="text" id="namecareer" name="career" placeholder="Carrera" required>
+        <input type="datetime-local" id="datetime-local" name="datetime-local"  required hidden>
+        <input type="button" value="Enviar" onclick="saveToBd()">
     </form>
 </body>
-<script>
-    //Set day and hour to input dateTime
-    const now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    document.getElementById('datetime-local').value = now.toISOString().slice(0,16);
-    //Get uuid
-    const urlParams = new URLSearchParams(window.location.search);
-    const uuid = urlParams.get('uuid');
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+    import { getFirestore, collection, doc, setDoc, addDoc } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-lite.js';
     //Save to BD
-    const saveToBd = async () => /* TODO: fetch()*/ console.log('terminar logica')
+    const saveToBd = async () => {
+        /*TODO: block validate all inputs */
+        //Set day and hour to input dateTime
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('datetime-local').value = now.toISOString().slice(0,16);
+        const urlParams = new URLSearchParams(window.location.search);
+        //Get uuid
+        const uuid = urlParams.get('uuid');
+        //Get jsonConfig
+        const jsonConfig = JSON.parse(urlParams.get('jsonConfig'));
+
+        const nameSignature = document.getElementById("namesignature").value;
+        const nameSection = document.getElementById("namesection").value;
+        const nameCareer = document.getElementById("namecareer").value;
+        if(!nameSignature || !nameSection || !nameCareer){
+            alert("Completar Formulario")
+            return
+        }
+        const dateTimeLocal = document.getElementById("datetime-local").value;
+
+        const app = initializeApp(jsonConfig);
+        const db = getFirestore(app);
+        const testCollection = collection(db, 'users', uuid, 'asistencia');
+        addDoc(testCollection, {nameSignature, nameSection, nameCareer, dateTimeLocal}).then((res) => console.log(res));
+        alert("Asistencia Registrada")
+    }   
+        window.saveToBd=saveToBd;
 </script>
 </html>
