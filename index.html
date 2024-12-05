@@ -30,6 +30,7 @@
     //set values onInit
     const OnInit = () => {
         console.log('OnInit');
+        const urlParams = new URLSearchParams(window.location.search);
         document.getElementById("namesignature").value = urlParams.get('claseClass');
         document.getElementById("namesection").value = urlParams.get('selectedSection');
         document.getElementById("namecareer").value = 'Informatica'
