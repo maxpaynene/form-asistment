@@ -27,6 +27,13 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
     import { getFirestore, collection, doc, setDoc, addDoc } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-lite.js';
+    //set values onInit
+    const OnInit = () => {
+        console.log('OnInit');
+        document.getElementById("namesignature").value = urlParams.get('claseClass');
+        document.getElementById("namesection").value = urlParams.get('selectedSection');
+        document.getElementById("namecareer").value = 'Informatica'
+    }()
     //Save to BD
     const saveToBd = async () => {
         /*TODO: block validate all inputs */
@@ -41,7 +48,6 @@
         const emailUser = urlParams.get('emailUser');
         //Get jsonConfig
         const jsonConfig = JSON.parse(urlParams.get('jsonConfig'));
-
         const nameSignature = document.getElementById("namesignature").value;
         const nameSection = document.getElementById("namesection").value;
         const nameCareer = document.getElementById("namecareer").value;
@@ -57,6 +63,6 @@
         addDoc(testCollection, {nameSignature, nameSection, nameCareer, dateTimeLocal, emailUser}).then((res) => console.log(res));
         alert("Asistencia Registrada")
     }   
-        window.saveToBd=saveToBd;
+    window.saveToBd=saveToBd;
 </script>
 </html>
