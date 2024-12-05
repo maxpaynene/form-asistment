@@ -33,7 +33,10 @@
         document.getElementById("namesignature").value = urlParams.get('claseClass');
         document.getElementById("namesection").value = urlParams.get('selectedSection');
         document.getElementById("namecareer").value = 'Informatica'
-    }()
+    }
+    window.onload = function() {
+      OnInit();
+    };
     //Save to BD
     const saveToBd = async () => {
         /*TODO: block validate all inputs */
