@@ -37,6 +37,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         //Get uuid
         const uuid = urlParams.get('uuid');
+        //Get email
+        const emailUser = urlParams.get('emailUser');
         //Get jsonConfig
         const jsonConfig = JSON.parse(urlParams.get('jsonConfig'));
 
@@ -52,7 +54,7 @@
         const app = initializeApp(jsonConfig);
         const db = getFirestore(app);
         const testCollection = collection(db, 'users', uuid, 'asistencia');
-        addDoc(testCollection, {nameSignature, nameSection, nameCareer, dateTimeLocal}).then((res) => console.log(res));
+        addDoc(testCollection, {nameSignature, nameSection, nameCareer, dateTimeLocal, emailUser}).then((res) => console.log(res));
         alert("Asistencia Registrada")
     }   
         window.saveToBd=saveToBd;
